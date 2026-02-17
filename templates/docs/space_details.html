@@ -1,11 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Space details</h1>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Espace {{space.name}} — Doc9b{% endblock %}
+
+{% block content %}
+    <a href="{% url 'docs:space_list' %}">&larr; Tous les espaces</a>
+
+    <section class="content_card">
+        <article class="content_section_title">
+            <h2>{{ space.name }}</h2>
+            <div>
+                <p class="timestamp">Crée le: {{ space.created_at|date:"d/m/Y H:i" }}</p>
+                <p class="timestamp">Modifié le: {{ space.updated_at|date:"d/m/Y H:i" }}</p>
+            </div>
+        </article>
+
+        <article class="content_section_content">
+            <p>Description: {{ space.description }}</p>
+    
+            <ul class="flex_row">
+                <p class="comment">Pages:</p>
+                {% for page in root_pages %}
+                    <li>
+                        <a href="{% url 'docs:page_details' space.slug page.slug %}" class="child_link_btn">{{ page.title }}</a>
+                    </li>
+                {% empty %}
+                    <li class="comment">Aucune page racine</li>
+                {% endfor %}
+            </ul>
+        </article>
+    </section>
+{% endblock content %}

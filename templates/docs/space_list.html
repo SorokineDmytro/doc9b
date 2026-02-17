@@ -1,11 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Space list</h1>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Espaces — Doc9b{% endblock %}
+
+{% block content %}
+    <h2>Espaces:</h2>
+    <section class="grid-container">
+        {% for space in spaces %}
+            <article class="card">
+                    <p class="title">{{ space.name }}</p>
+                    {% if space.description %}
+                        <!-- |truncatewords serves like a split() -->
+                        <p>Description: {{ space.description|truncatewords:10 }}</p>
+                    {% else %}
+                        <p>Description: -</p>
+                    {% endif %}
+                <a href="{% url 'docs:space_details' space.slug %}" class="button">Acceder</a>
+            </article>
+        {% empty %}
+            <p>Aucun espace</p>
+        {% endfor %}
+    </section>
+{% endblock content %}
