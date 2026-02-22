@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %} Se connecter - Doc9b{% endblock title %}
+
+{% block content %}
+    <h2>Se connecter</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">Se connecter</button>
+    </form>
+
+    <p>
+        Pas encore de compte ? <a href="{% url 'signup' %}">S'inscrire</a>
+    </p>
+{% endblock content %}

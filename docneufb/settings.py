@@ -28,6 +28,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+
 
 # Application definition
 
@@ -40,12 +44,18 @@ DEFAULT_APPS = [
     'django.contrib.staticfiles',
 ]
 CUSTOM_APPS = [
+    "debug_toolbar",
+    "django_extensions",
     'docs',
+    'accounts',
 ]
+
+AUTH_USER_MODEL = "accounts.CustomUser"
 
 INSTALLED_APPS = DEFAULT_APPS + CUSTOM_APPS
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
