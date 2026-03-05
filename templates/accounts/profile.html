@@ -8,8 +8,10 @@
 <form method="post">
   {% csrf_token %}
   {{ form.as_p }}
-  <button type="submit">Modifier</button>
+  <div class="form-buttons">
+      <a href="{% url 'docs:space_list' %}" class="action-button">Retour aux espaces</a>
+      <button type="submit" class="action-button">Modifier</button>
+  </div>
 </form>
 
-<a href="{% url 'docs:space_list' %}">Retour aux espaces</a>
 {% endblock content %}
