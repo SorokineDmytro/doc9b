@@ -1,6 +1,7 @@
 from accounts.decorators import role_required
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Space, Page
+from .forms import PageForm
 
 # List of all spaces
 @role_required("reader")
@@ -56,4 +57,47 @@ def page_details_view(request, space_slug, page_slug):
             'children': children,
             'breadcrumbs': breadcrumbs,
         }    
+    )
+
+@role_required("redactor")
+def create_page_view(request, space_slug):
+    space = get_object_or_404(Space, slug=space_slug)
+    
+    if request.method == "POST":
+        form = PageForm(request.POST)
+        if form.is_valid():
+            page = form.save(commit=False)
+            page.space = space
+            page.save()
+            form.save_m2m()
+            return redirect("docs:page_details", space_slug=space.slug, page_slug=page.slug)
+    else:
+        form = PageForm(initial={"space": space})
+    
+    return render(
+        request,
+        "docs/page_form.html",
+        {"form": form, "space": space, "mode": "create"},
+    )
+
+@role_required("redactor")
+def edit_page_view(request, space_slug, page_slug):
+    space = get_object_or_404(Space, slug=space_slug)
+    page = get_object_or_404(Page, space=space, slug=page_slug)
+    
+    if request.method == "POST":
+        form = PageForm(request.POST, instance=page)
+        if form.is_valid():
+            page = form.save(commit=False)
+            page.space = space
+            page.save()
+            form.save_m2m()
+            return redirect("docs:page_details", space_slug=space.slug, page_slug=page.slug)
+    else:
+        form = PageForm(initial={"space": space}, instance=page)
+    
+    return render(
+        request,
+        "docs/page_form.html",
+        {"form": form, "space": space, "mode": "edit"},
     )

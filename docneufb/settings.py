@@ -46,6 +46,7 @@ DEFAULT_APPS = [
 CUSTOM_APPS = [
     "debug_toolbar",
     "django_extensions",
+    "taggit",
     'docs',
     'accounts',
 ]

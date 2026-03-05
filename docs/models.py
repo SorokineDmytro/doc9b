@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+from taggit.managers import TaggableManager
 
 # Abstract base model to add created_at and updated_at to each model that inherits from it
 class TimeStampedModel(models.Model):
@@ -56,6 +57,7 @@ class Page(TimeStampedModel):
     slug = models.SlugField(max_length=200, blank=True)
     content = models.TextField(blank=True)
     order = models.PositiveIntegerField(default=0)
+    tags = TaggableManager(blank=True)
 
     # Many-to-many relationship with UserCategory to allow categorization of pages
     categories = models.ManyToManyField(UserCategory, related_name='pages', blank=True)
