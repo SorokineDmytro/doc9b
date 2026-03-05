@@ -1,7 +1,9 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from .models import Space, Page
 
 # List of all spaces
+@login_required
 def space_list_view(request):
     spaces = Space.objects.all()
     
@@ -12,6 +14,7 @@ def space_list_view(request):
     )
 
 # Selected space details with root pages
+@login_required
 def space_details_view(request, space_slug):
     space = get_object_or_404(Space, slug=space_slug)
     root_pages = (
@@ -28,6 +31,7 @@ def space_details_view(request, space_slug):
     )
 
 # Selected page details with breadcrumbs for navigation
+@login_required
 def page_details_view(request, space_slug, page_slug):
     space = get_object_or_404(Space, slug=space_slug)
     page = get_object_or_404(Page, space=space, slug=page_slug)

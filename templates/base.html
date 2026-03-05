@@ -1,24 +1,32 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
+  <head>
     {% load static %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Doc9b{% endblock title %}</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-</head>
-<body>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  </head>
+  <body>
     <header>
-        <h1 class="home_link">
-            <a href="{% url 'docs:space_list' %}" class="undecorated_link">Doc9b</a>
-        </h1>
+      <h1 class="home_link">
+        <a href="{% url 'docs:space_list' %}" class="undecorated_link">Doc9b</a>
+      </h1>
+      <nav>
+        {% if user.is_authenticated %}
+        <a href="{% url 'profile' %}" class="">Profile</a>
+
+        <form method="post" action="{% url 'logout' %}" style="display: inline">
+          {% csrf_token %}
+          <button type="submit">Logout</button>
+        </form>
+        {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'signup' %}">Sign up</a>
+        {% endif %}
+      </nav>
     </header>
-    <main>
-        {% block content %}
-        {% endblock content %}
-    </main>
-    <footer>
-        Doc9b - 2025
-    </footer>
-</body>
+    <main>{% block content %} {% endblock content %}</main>
+    <footer>Doc9b - 2025</footer>
+  </body>
 </html>

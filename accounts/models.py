@@ -5,8 +5,8 @@ from docs.models import UserCategory
 class CustomUser(AbstractUser):
     category = models.ForeignKey(
         UserCategory,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name='users',
+        on_delete=models.PROTECT,
+        null=False,
+        blank=False,
+        related_name="users",
     )

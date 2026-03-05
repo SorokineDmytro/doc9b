@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}My profile - Doc9b{% endblock title %}
+
+{% block content %}
+<h1>Profile</h1>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Modifier</button>
+</form>
+
+<a href="{% url 'docs:space_list' %}">Retour aux espaces</a>
+{% endblock content %}
