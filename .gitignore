@@ -42,8 +42,6 @@ local_settings.py
 db.sqlite3
 db.sqlite3-journal
 media/
-staticfiles/
-static/
 
 # Editor directories and files
 .vscode/

@@ -59,9 +59,6 @@ class Page(TimeStampedModel):
     order = models.PositiveIntegerField(default=0)
     tags = TaggableManager(blank=True)
 
-    # Many-to-many relationship with UserCategory to allow categorization of pages
-    categories = models.ManyToManyField(UserCategory, related_name='pages', blank=True)
-
     # Ensure to have unique slug per space (since the slug can't be unique across all pages) && order by order && title (alphabetically)
     class Meta:
         constraints = [

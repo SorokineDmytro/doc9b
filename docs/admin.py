@@ -6,7 +6,7 @@ class SpaceAdmin(admin.ModelAdmin):
 
 class PageAdmin(admin.ModelAdmin):
     list_display = ('title', 'space', 'parent', 'order',)
-    list_filter = ('space', 'categories',)
+    list_filter = ('space',)
     search_fields = ('title',)
 
 class UserCategoryAdmin(admin.ModelAdmin):

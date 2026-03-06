@@ -16,8 +16,11 @@
                     {% endif %}
                 <a href="{% url 'docs:space_details' space.slug %}" class="button">Acceder</a>
             </article>
-        {% empty %}
-            <p>Aucun espace</p>
-        {% endfor %}
+            {% endfor %}
+            {% if user.is_authenticated and user.category and user.category.slug == "admin" %}
+            <article class="new-card">   
+                <a href="{% url 'docs:create_space' %}" class="add-button">+</a>
+            </article>
+            {% endif %}
     </section>
 {% endblock content %}

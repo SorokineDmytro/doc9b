@@ -1,62 +1,86 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block title %}Page {{ page.title }}-{{space.name}}
+- Doc9b{% endblock title %} {% block content %}
+<div class="flex_row_between">
+  <!-- breadcrumbs nav-menu -->
+  <nav>
+    <a href="{% url 'docs:space_list' %}">Doc9b</a>
+    <span>›</span>
+    <a href="{% url 'docs:space_details' space.slug %}">{{ space.name }}</a>
+    {% for breadcrumb in breadcrumbs %}
+    <span>›</span>
+    <a href="{% url 'docs:page_details' space.slug breadcrumb.slug %}">
+      {% if page.title == breadcrumb.title %}
+      <b>{{ breadcrumb.title }}</b>
+      {% else %} {{ breadcrumb.title }} {% endif %}
+    </a>
+    {% endfor %}
+  </nav>
 
-{% block title %}Page {{ page.title }}-{{space.name}} - Doc9b{% endblock title %}
+  <div class="flex_row">
+    {% if user.is_authenticated and not user.category.slug == "reader" %}
+    <a href="{% url 'docs:edit_page' space.slug page.slug %}" class="info-button">Editer</a>
+    <a href="{% url 'docs:delete_page' space.slug page.slug %}" class="danger-button">Supprimer</a>
+    {% endif %}
+  </div>
+</div>
 
-{% block content %}
-    <!-- breadcrumbs nav-menu -->
-    <nav>
-        <a href="{% url 'docs:space_details' space.slug%}">{{ space.name }}</a>
-        {% for breadcrumb in breadcrumbs %}
-            <span>›</span>
-            <a href="{% url 'docs:page_details' space.slug breadcrumb.slug %}">
-                {% if page.title == breadcrumb.title %}
-                    <b>{{ breadcrumb.title }}</b>
-                {% else %}
-                    {{ breadcrumb.title }}
-                {% endif %}
-            </a>
-        {% endfor %}
-    </nav>
+<section class="content_card">
+  <article class="content_section_title">
+    <h2>Page {{page.title}}</h2>
+    <div class="tags">
+      {% for tag in page.tags.all %}
+      <a
+        href="{% url 'docs:page_list_by_tag' space.slug tag.slug %}"
+        class="tag"
+        >{{ tag }}</a
+      >
+      {% empty %} {% endfor %}
+    </div>
+    <div>
+      <p class="timestamp">Crée le: {{ page.created_at|date:"d/m/Y H:i" }}</p>
+      <p class="timestamp">
+        Modifié le: {{ page.updated_at|date:"d/m/Y H:i" }}
+      </p>
+    </div>
+  </article>
 
-    <section class="content_card">
-        <article class="content_section_title">
-            <h2>{{page.title}}</h2>
-            <div>
-                <p class="timestamp">Crée le: {{ page.created_at|date:"d/m/Y H:i" }}</p>
-                <p class="timestamp">Modifié le: {{ page.updated_at|date:"d/m/Y H:i" }}</p>
-            </div>
-        </article>
+  <article class="content_section_content">
+    <!-- parent page -->
+    {% if page.parent %}
+    <ul class="flex_row">
+      <p>Page parente:</p>
+      <li>
+        <a
+          href="{% url 'docs:page_details' space.slug page.parent.slug %}"
+          class="parent_link_btn"
+        >
+          {{ page.parent.title }}
+        </a>
+      </li>
+    </ul>
+    {% else %}
+    <p class="comment">Cette page n'a pas de page-parente</p>
+    {% endif %}
 
-        <article class="content_section_content">
-            <!-- parent page -->
-            {% if page.parent %}
-            <ul class="flex_row">
-                <p>Page parente:</p>
-                    <li>
-                        <a href="{% url 'docs:page_details' space.slug page.parent.slug %}" class="parent_link_btn">
-                            {{ page.parent.title }}
-                        </a>
-                    </li>
-            </ul>
-            {% else %}
-                <p class="comment">Cette page n'a pas de page-parente</p>
-            {% endif %}
-            
-            <p>{{ page.content }}</p>
-            
-            <!-- children pages -->
-            {% if children %}
-            <ul class="flex_row">
-                <p>Pages enfants:</p>
-                {% for child in children %}
-                    <li>
-                        <a href="{% url 'docs:page_details' space.slug child.slug%}" class="child_link_btn">{{child.title}}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-            {% else %}
-            <p class="comment">Cette page n'a pas de pages-enfants</p>
-            {% endif %}
-        </article>
-    </section>
+    <p>{{ page.content }}</p>
+
+    <!-- children pages -->
+    {% if children %}
+    <ul class="flex_row">
+      <p>Pages enfants:</p>
+      {% for child in children %}
+      <li>
+        <a
+          href="{% url 'docs:page_details' space.slug child.slug%}"
+          class="child_link_btn"
+          >{{child.title}}</a
+        >
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="comment">Cette page n'a pas de pages-enfants</p>
+    {% endif %}
+  </article>
+</section>
 {% endblock content %}

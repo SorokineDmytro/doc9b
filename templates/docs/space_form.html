@@ -1,21 +1,19 @@
 {% extends "base.html" %}
 
 {% block title %}
-  {% if mode == "create" %}Creer une page{% else %}Editer une page{% endif %} - Doc9b
+  {% if mode == "create" %}Creer un espace{% else %}Editer un espace{% endif %} - Doc9b
 {% endblock title %}
 
 {% block content %}
-  <a href="{% url 'docs:space_details' space.slug %}">&larr; {{ space.name }}</a>
-
-  <h1>
-    {% if mode == "create" %}Creer une page{% else %}Editer une page{% endif %}
-  </h1>
+  <h2>
+    {% if mode == "create" %}Creer un espace{% else %}Editer un espace{% endif %}
+  </h2>
 
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <div class="flex_row">
-      <a href="{{request.META.HTTP_REFERER}}" class="danger-button">Annuler</a>
+      <a href="{% url 'docs:space_list' %}" class="danger-button">Annuler</a>
       <button type="submit" class="action-button">
         {% if mode == "create" %}Créer{% else %}Enregistrer{% endif %}
       </button>

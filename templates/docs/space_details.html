@@ -3,11 +3,22 @@
 {% block title %}Espace {{space.name}} — Doc9b{% endblock %}
 
 {% block content %}
-    <a href="{% url 'docs:space_list' %}">&larr; Tous les espaces</a>
+    <div class="flex_row_between">
+        <a href="{% url 'docs:space_list' %}">&larr; Tous les espaces</a>
+        <div class="flex_row">
+            {% if user.is_authenticated and user.category and not user.category.slug == "reader" %}
+            <a href="{% url 'docs:create_page' space.slug %}" class="action-button">Créer une page</a>
+            <a href="{% url 'docs:edit_space' space.slug %}" class="info-button">Editer</a>
+            {% endif  %}
+            {% if user.is_authenticated and user.category and user.category.slug == "admin" %}
+            <a href="{% url 'docs:delete_space' space.slug %}" class="danger-button">Supprimer</a>
+            {% endif %}
+        </div>
+    </div>
 
     <section class="content_card">
         <article class="content_section_title">
-            <h2>{{ space.name }}</h2>
+            <h2>Espace {{ space.name }}</h2>
             <div>
                 <p class="timestamp">Crée le: {{ space.created_at|date:"d/m/Y H:i" }}</p>
                 <p class="timestamp">Modifié le: {{ space.updated_at|date:"d/m/Y H:i" }}</p>

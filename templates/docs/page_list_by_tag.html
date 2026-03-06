@@ -1,0 +1,28 @@
+{% extends "base.html" %} 
+
+{% block title %}Pages taguées "{{ tag.name }}" - Doc9b{% endblock title %} 
+
+{% block content %}
+<a href="{% url 'docs:space_details' space.slug %}">
+  &larr; Retour à l'espace {{ space.name }}
+</a>
+
+<h2>Pages avec le tag "{{ tag.name }}" dans l'espace {{ space.name }}</h2>
+
+{% if pages %}
+<ul>
+  {% for page in pages %}
+  <li>
+    <a href="{% url 'docs:page_details' space.slug page.slug %}">
+      {{ page.title }}
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+<a href="{{request.META.HTTP_REFERER}}" class="action-button">Retour à l'arrière</a>
+{% else %}
+<p>Aucune page trouvée pour ce tag dans cet espace.</p>
+<a href="{% url 'docs:space_details' space.slug %}" class="action-button">Retour à l'arrière</a>
+{% endif %} 
+
+{% endblock content %}
