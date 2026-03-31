@@ -19,7 +19,7 @@
   </li>
   {% endfor %}
 </ul>
-<a href="{{request.META.HTTP_REFERER}}" class="action-button">Retour à l'arrière</a>
+<a href="{% url 'docs:space_details' space.slug %}" class="action-button">Retour à l'arrière</a>
 {% else %}
 <p>Aucune page trouvée pour ce tag dans cet espace.</p>
 <a href="{% url 'docs:space_details' space.slug %}" class="action-button">Retour à l'arrière</a>

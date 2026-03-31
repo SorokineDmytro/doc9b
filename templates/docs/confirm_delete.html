@@ -10,7 +10,7 @@
   <form method="post">
     {% csrf_token %}
     <div class="flex_row">
-        <a href="{{request.META.HTTP_REFERER}}" class="action-button">Annuler</a>
+        <a href="{% url 'docs:space_details' space.slug %}" class="action-button">Annuler</a>
         <button type="submit" class="danger-button">Supprimer</button>
     </div>
   </form>

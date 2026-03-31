@@ -3,6 +3,8 @@ from django.db import models
 from docs.models import UserCategory
 
 class CustomUser(AbstractUser):
+    REQUIRED_FIELDS = ["email", "category_id"]
+
     category = models.ForeignKey(
         UserCategory,
         on_delete=models.PROTECT,

@@ -15,7 +15,7 @@
     {% csrf_token %}
     {{ form.as_p }}
     <div class="flex_row">
-      <a href="{{request.META.HTTP_REFERER}}" class="danger-button">Annuler</a>
+      <a href="{% url 'docs:space_details' space.slug %}" class="danger-button">Annuler</a>
       <button type="submit" class="action-button">
         {% if mode == "create" %}Créer{% else %}Enregistrer{% endif %}
       </button>

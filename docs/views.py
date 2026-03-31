@@ -37,10 +37,7 @@ def create_space_view(request):
     if request.method == "POST":
         form = SpaceForm(request.POST)
         if form.is_valid():
-            space = form.save(commit=False)
-            space.space = space
-            space.save()
-            form.save_m2m()
+            form.save()
             return redirect("docs:space_list")
     else:
         form = SpaceForm()
@@ -58,12 +55,10 @@ def edit_space_view(request, space_slug):
     if request.method == "POST":
         form = SpaceForm(request.POST, instance=space)
         if form.is_valid():
-            space = form.save(commit=False)
-            space.save()
-            form.save_m2m()
-            return redirect("docs:space_details", space_slug=space_slug)
+            form.save()
+            return redirect("docs:space_details", space_slug=space.slug)
     else:
-        form = SpaceForm(initial={"space": space}, instance=space)
+        form = SpaceForm(instance=space)
     
     return render(
         request,
@@ -121,7 +116,6 @@ def create_page_view(request, space_slug):
             page.space = space
             page.save()
             page.tags.set(form.cleaned_data["tags"])
-            form.save_m2m()
             return redirect("docs:page_details", space_slug=space.slug, page_slug=page.slug)
     else:
         form = PageForm(initial={"space": space})
@@ -144,7 +138,6 @@ def edit_page_view(request, space_slug, page_slug):
             page.space = space
             page.save()
             page.tags.set(form.cleaned_data["tags"])
-            form.save_m2m()
             return redirect("docs:page_details", space_slug=space.slug, page_slug=page.slug)
     else:
         form = PageForm(initial={"space": space}, instance=page)
